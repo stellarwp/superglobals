@@ -8,6 +8,8 @@ A library that handles access to superglobals.
 * [Usage](#usage)
   * [`Request::get_get_var( $var, $default = null )`](#get_get_var-var-default-null)
   * [`Request::get_post_var( $var, $default = null )`](#get_post_var-var-default-null)
+  * [`Request::get_raw_superglobal( $var, $default = null )`](#get_raw_superglobal-var-default-null)
+  * [`Request::get_sanitized_superglobal( $var, $default = null )`](#get_sanitized_superglobal-var-default-null)
   * [`Request::get_server_var( $var, $default = null )`](#get_server_var-var-default-null)
   * [`Request::get_var( $var, $default = null )`](#get_var-var-default-null)
   * [`Request::sanitize_deep( &$value )`](#sanitize_deep-value)
@@ -61,6 +63,56 @@ $var = Request::get_post_var( 'post_id' );
 
 // Provide a default value if the variable is not set.
 $var = Request::get_post_var( 'post_id', 12 );
+```
+
+### `Request::get_raw_superglobal( $var, $default = null )`
+
+Gets the requested superglobal variable. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
+
+#### Example
+
+```php
+use StellarWP\SuperGlobals\Request;
+
+// Get $_ENV
+$env     = Request::get_raw_superglobal( 'ENV' );
+
+// Get $_GET
+$get     = Request::get_raw_superglobal( 'GET' );
+
+// Get $_POST
+$post    = Request::get_raw_superglobal( 'POST' );
+
+// Get $_REQUEST
+$request = Request::get_raw_superglobal( 'REQUEST' );
+
+// Get $_SERVER
+$server  = Request::get_raw_superglobal( 'SERVER' );
+```
+
+### `Request::get_sanitized_superglobal( $var, $default = null )`
+
+Gets the requested superglobal variable, sanitized. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
+
+#### Example
+
+```php
+use StellarWP\SuperGlobals\Request;
+
+// Get $_ENV
+$env     = Request::get_sanitized_superglobal( 'ENV' );
+
+// Get $_GET
+$get     = Request::get_sanitized_superglobal( 'GET' );
+
+// Get $_POST
+$post    = Request::get_sanitized_superglobal( 'POST' );
+
+// Get $_REQUEST
+$request = Request::get_sanitized_superglobal( 'REQUEST' );
+
+// Get $_SERVER
+$server  = Request::get_sanitized_superglobal( 'SERVER' );
 ```
 
 ### `Request::get_server_var( $var, $default = null )`

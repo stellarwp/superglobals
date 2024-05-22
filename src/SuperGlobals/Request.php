@@ -68,6 +68,56 @@ class Request {
 	}
 
 	/**
+	 * Gets the requested superglobal variable.
+	 *
+	 * @param string $superglobal A superglobal, such as 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
+	 *
+	 * @return mixed
+	 */
+	public static function get_raw_superglobal( string $superglobal ) {
+		$superglobal = strtoupper( $superglobal );
+
+		switch ( $superglobal ) {
+			case '_ENV':
+			case 'ENV':
+				$var = $_ENV;
+				break;
+			case '_GET':
+			case 'GET':
+				$var = $_GET;
+				break;
+			case '_POST':
+			case 'POST':
+				$var = $_POST;
+				break;
+			case '_REQUEST':
+			case 'REQUEST':
+				$var = $_REQUEST;
+				break;
+			case '_SERVER':
+			case 'SERVER':
+				$var = $_SERVER;
+				break;
+			default:
+				return [];
+		}
+
+		return $var;
+	}
+
+	/**
+	 * Gets the requested superglobal variable, sanitized.
+	 *
+	 * @param string $superglobal A superglobal, such as 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
+	 *
+	 * @return mixed
+	 */
+	public static function get_sanitized_superglobal( string $superglobal ) {
+		$var = static::get_raw_superglobal( $superglobal );
+		return static::sanitize_deep( $var );
+	}
+
+	/**
 	 * Tests to see if the requested variable is set either as a post field or as a URL
 	 * param and returns the value if so.
 	 *
