@@ -13,8 +13,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "StellarWP\\SuperGlobals\\Tests\\": "tests/_support/",
-      "StellarWP\\SuperGlobals\\Tests\\Helper\\": "tests/_support/Helper/"
+      "StellarWP\\SuperGlobals\\Tests\\": "tests/"
     }
   },
   "authors": [

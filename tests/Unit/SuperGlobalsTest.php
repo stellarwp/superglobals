@@ -1,10 +1,11 @@
 <?php
-namespace StellarWP\SuperGlobals\Tests;
+
+namespace StellarWP\SuperGlobals\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use StellarWP\SuperGlobals\SuperGlobals;
 
-class SuperGlobalsTest extends TestCase {
+final class SuperGlobalsTest extends TestCase {
 	/**
 	 * @test
 	 */
