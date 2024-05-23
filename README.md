@@ -5,6 +5,9 @@
 
 A library that handles access to superglobals.
 
+Why create a library for this? WordPress .org does not like plugins to directly access superglobals, so this library was created to handle this
+in a consistent and safe way and can be included as a composer dependency.
+
 ## Table of Contents
 
 * [Installation](#installation)
