@@ -21,7 +21,5 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "<>"
-      - name: Migrate PHPUnit configuration
-        run: vendor/bin/phpunit --migrate-configuration
       - name: Run tests
         run: php vendor/bin/phpunit --bootstrap=tests/bootstrap.php --no-coverage
