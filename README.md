@@ -12,13 +12,13 @@ in a consistent and safe way and can be included as a composer dependency.
 
 * [Installation](#installation)
 * [Usage](#usage)
-  * [`SuperGlobals::get_get_var( $var, $default = null )`](#superglobalsget_get_var-var-default-null)
-  * [`SuperGlobals::get_post_var( $var, $default = null )`](#superglobalsget_post_var-var-default-null)
-  * [`SuperGlobals::get_raw_superglobal( string $superglobal )`](#superglobalsget_raw_superglobal-string-superglobal)
-  * [`SuperGlobals::get_sanitized_superglobal( string $superglobal )`](#superglobalsget_sanitized_superglobal-string-superglobal)
-  * [`SuperGlobals::get_server_var( $var, $default = null )`](#superglobalsget_server_var-var-default-null)
-  * [`SuperGlobals::get_var( $var, $default = null )`](#superglobalsget_var-var-default-null)
-  * [`SuperGlobals::sanitize_deep( &$value )`](#superglobalssanitize_deep-value)
+  * [`SuperGlobals::get_get_var( $var, $default = null )`](#superglobalsget_get_var-var-default--null-)
+  * [`SuperGlobals::get_post_var( $var, $default = null )`](#superglobalsget_post_var-var-default--null-)
+  * [`SuperGlobals::get_raw_superglobal( string $superglobal )`](#superglobalsget_raw_superglobal-string-superglobal-)
+  * [`SuperGlobals::get_sanitized_superglobal( string $superglobal )`](#superglobalsget_sanitized_superglobal-string-superglobal-)
+  * [`SuperGlobals::get_server_var( $var, $default = null )`](#superglobalsget_server_var-var-default--null-)
+  * [`SuperGlobals::get_var( $var, $default = null )`](#superglobalsget_var-var-default--null-)
+  * [`SuperGlobals::sanitize_deep( &$value )`](#superglobalssanitize_deep-value-)
 
 ## Installation
 
