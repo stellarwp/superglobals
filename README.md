@@ -1,5 +1,8 @@
 # StellarWP SuperGlobals
 
+[![Tests](https://github.com/stellarwp/superglobals/workflows/Tests/badge.svg)](https://github.com/stellarwp/superglobals/actions?query=branch%3Amain) [![Static Analysis](https://github.com/stellarwp/superglobals/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/stellarwp/superglobals/actions/workflows/static-analysis.yml)
+
+
 A library that handles access to superglobals.
 
 ## Table of Contents
