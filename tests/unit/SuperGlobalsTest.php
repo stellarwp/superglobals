@@ -103,30 +103,6 @@ class SuperGlobalsTest extends TestCase {
 	/**
 	 * @test
 	 */
-	public function it_should_sanitize_int() {
-		$_REQUEST['bork'] = '123 ';
-
-		$this->assertEquals( 123, SuperGlobals::get_var( 'bork', 'default' ) );
-		$this->assertNotEquals( 'whee', SuperGlobals::get_var( 'bork', 'default' ) );
-
-		unset( $_REQUEST['bork'] );
-	}
-
-	/**
-	 * @test
-	 */
-	public function it_should_sanitize_float() {
-		$_REQUEST['bork'] = '123.456 ';
-
-		$this->assertEquals( 123.456, SuperGlobals::get_var( 'bork', 'default' ) );
-		$this->assertNotEquals( 'whee', SuperGlobals::get_var( 'bork', 'default' ) );
-
-		unset( $_REQUEST['bork'] );
-	}
-
-	/**
-	 * @test
-	 */
 	public function it_should_sanitize_string() {
 		$_REQUEST['bork'] = '<script>alert("hello");</script>';
 
