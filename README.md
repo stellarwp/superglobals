@@ -14,8 +14,8 @@ in a consistent and safe way and can be included as a composer dependency.
 * [Usage](#usage)
   * [`SuperGlobals::get_get_var( $var, $default = null )`](#get_get_var-var-default-null)
   * [`SuperGlobals::get_post_var( $var, $default = null )`](#get_post_var-var-default-null)
-  * [`SuperGlobals::get_raw_superglobal( $var, $default = null )`](#get_raw_superglobal-var-default-null)
-  * [`SuperGlobals::get_sanitized_superglobal( $var, $default = null )`](#get_sanitized_superglobal-var-default-null)
+  * [`SuperGlobals::get_raw_superglobal( $var )`](#get_raw_superglobal-string-superglobal)
+  * [`SuperGlobals::get_sanitized_superglobal( $var )`](#get_sanitized_superglobal-string-superglobal)
   * [`SuperGlobals::get_server_var( $var, $default = null )`](#get_server_var-var-default-null)
   * [`SuperGlobals::get_var( $var, $default = null )`](#get_var-var-default-null)
   * [`SuperGlobals::sanitize_deep( &$value )`](#sanitize_deep-value)
@@ -71,7 +71,7 @@ $var = SuperGlobals::get_post_var( 'post_id' );
 $var = SuperGlobals::get_post_var( 'post_id', 12 );
 ```
 
-### `SuperGlobals::get_raw_superglobal( $var, $default = null )`
+### `SuperGlobals::get_raw_superglobal( string $superglobal )`
 
 Gets the requested superglobal variable. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
 
@@ -96,7 +96,7 @@ $request = SuperGlobals::get_raw_superglobal( 'REQUEST' );
 $server  = SuperGlobals::get_raw_superglobal( 'SERVER' );
 ```
 
-### `SuperGlobals::get_sanitized_superglobal( $var, $default = null )`
+### `SuperGlobals::get_sanitized_superglobal( string $superglobal )`
 
 Gets the requested superglobal variable, sanitized. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
 
