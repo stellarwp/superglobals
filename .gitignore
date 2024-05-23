@@ -4,6 +4,7 @@ repo/
 vendor/
 tests/_support/_generated
 bin/*.phar
+tests/var
 
 # Dev tools
 .buildpath

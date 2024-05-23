@@ -6,13 +6,13 @@ A library that handles access to superglobals.
 
 * [Installation](#installation)
 * [Usage](#usage)
-  * [`Request::get_get_var( $var, $default = null )`](#get_get_var-var-default-null)
-  * [`Request::get_post_var( $var, $default = null )`](#get_post_var-var-default-null)
-  * [`Request::get_raw_superglobal( $var, $default = null )`](#get_raw_superglobal-var-default-null)
-  * [`Request::get_sanitized_superglobal( $var, $default = null )`](#get_sanitized_superglobal-var-default-null)
-  * [`Request::get_server_var( $var, $default = null )`](#get_server_var-var-default-null)
-  * [`Request::get_var( $var, $default = null )`](#get_var-var-default-null)
-  * [`Request::sanitize_deep( &$value )`](#sanitize_deep-value)
+  * [`SuperGlobals::get_get_var( $var, $default = null )`](#get_get_var-var-default-null)
+  * [`SuperGlobals::get_post_var( $var, $default = null )`](#get_post_var-var-default-null)
+  * [`SuperGlobals::get_raw_superglobal( $var, $default = null )`](#get_raw_superglobal-var-default-null)
+  * [`SuperGlobals::get_sanitized_superglobal( $var, $default = null )`](#get_sanitized_superglobal-var-default-null)
+  * [`SuperGlobals::get_server_var( $var, $default = null )`](#get_server_var-var-default-null)
+  * [`SuperGlobals::get_var( $var, $default = null )`](#get_var-var-default-null)
+  * [`SuperGlobals::sanitize_deep( &$value )`](#sanitize_deep-value)
 
 ## Installation
 
@@ -33,128 +33,128 @@ composer require stellarwp/superglobals
 
 ## Usage
 
-### `Request::get_get_var( $var, $default = null )`
+### `SuperGlobals::get_get_var( $var, $default = null )`
 
-Get a `$_GET` value and recursively sanitize it using `Request::sanitize_deep()`.
+Get a `$_GET` value and recursively sanitize it using `SuperGlobals::sanitize_deep()`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_GET['post_id']
-$var = Request::get_get_var( 'post_id' );
+$var = SuperGlobals::get_get_var( 'post_id' );
 
 // Provide a default value if the variable is not set.
-$var = Request::get_get_var( 'post_id', 12 );
+$var = SuperGlobals::get_get_var( 'post_id', 12 );
 ```
 
-### `Request::get_post_var( $var, $default = null )`
+### `SuperGlobals::get_post_var( $var, $default = null )`
 
-Get a `$_POST` value and recursively sanitize it using `Request::sanitize_deep()`.
+Get a `$_POST` value and recursively sanitize it using `SuperGlobals::sanitize_deep()`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_POST['post_id']
-$var = Request::get_post_var( 'post_id' );
+$var = SuperGlobals::get_post_var( 'post_id' );
 
 // Provide a default value if the variable is not set.
-$var = Request::get_post_var( 'post_id', 12 );
+$var = SuperGlobals::get_post_var( 'post_id', 12 );
 ```
 
-### `Request::get_raw_superglobal( $var, $default = null )`
+### `SuperGlobals::get_raw_superglobal( $var, $default = null )`
 
 Gets the requested superglobal variable. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_ENV
-$env     = Request::get_raw_superglobal( 'ENV' );
+$env     = SuperGlobals::get_raw_superglobal( 'ENV' );
 
 // Get $_GET
-$get     = Request::get_raw_superglobal( 'GET' );
+$get     = SuperGlobals::get_raw_superglobal( 'GET' );
 
 // Get $_POST
-$post    = Request::get_raw_superglobal( 'POST' );
+$post    = SuperGlobals::get_raw_superglobal( 'POST' );
 
 // Get $_REQUEST
-$request = Request::get_raw_superglobal( 'REQUEST' );
+$request = SuperGlobals::get_raw_superglobal( 'REQUEST' );
 
 // Get $_SERVER
-$server  = Request::get_raw_superglobal( 'SERVER' );
+$server  = SuperGlobals::get_raw_superglobal( 'SERVER' );
 ```
 
-### `Request::get_sanitized_superglobal( $var, $default = null )`
+### `SuperGlobals::get_sanitized_superglobal( $var, $default = null )`
 
 Gets the requested superglobal variable, sanitized. Options are `ENV`, `GET`, `POST`, `REQUEST`, or `SERVER`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_ENV
-$env     = Request::get_sanitized_superglobal( 'ENV' );
+$env     = SuperGlobals::get_sanitized_superglobal( 'ENV' );
 
 // Get $_GET
-$get     = Request::get_sanitized_superglobal( 'GET' );
+$get     = SuperGlobals::get_sanitized_superglobal( 'GET' );
 
 // Get $_POST
-$post    = Request::get_sanitized_superglobal( 'POST' );
+$post    = SuperGlobals::get_sanitized_superglobal( 'POST' );
 
 // Get $_REQUEST
-$request = Request::get_sanitized_superglobal( 'REQUEST' );
+$request = SuperGlobals::get_sanitized_superglobal( 'REQUEST' );
 
 // Get $_SERVER
-$server  = Request::get_sanitized_superglobal( 'SERVER' );
+$server  = SuperGlobals::get_sanitized_superglobal( 'SERVER' );
 ```
 
-### `Request::get_server_var( $var, $default = null )`
+### `SuperGlobals::get_server_var( $var, $default = null )`
 
-Get a `$_SERVER` value and recursively sanitize it using `Request::sanitize_deep()`.
+Get a `$_SERVER` value and recursively sanitize it using `SuperGlobals::sanitize_deep()`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_SERVER['REQUEST_URI']
-$var = Request::get_server_var( 'REQUEST_URI' );
+$var = SuperGlobals::get_server_var( 'REQUEST_URI' );
 
 // Provide a default value if the variable is not set.
-$var = Request::get_server_var( 'REQUEST_URI', 'http://example.com' );
+$var = SuperGlobals::get_server_var( 'REQUEST_URI', 'http://example.com' );
 ```
 
-### `Request::get_var( $var, $default = null )`
+### `SuperGlobals::get_var( $var, $default = null )`
 
-Gets a value from `$_REQUEST`, `$_POST`, or `$_GET` and recursively sanitizes it using `Request::sanitize_deep()`.
+Gets a value from `$_REQUEST`, `$_POST`, or `$_GET` and recursively sanitizes it using `SuperGlobals::sanitize_deep()`.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
 // Get $_REQUEST['post_id'] or $_POST['post_id'] or $_GET['post_id'], wherever it lives
-$var = Request::get_var( 'post_id' );
+$var = SuperGlobals::get_var( 'post_id' );
 
 // Provide a default value if the variable is not set.
-$var = Request::get_var( 'post_id', 12 );
+$var = SuperGlobals::get_var( 'post_id', 12 );
 ```
 
-### `Request::sanitize_deep( &$value )`
+### `SuperGlobals::sanitize_deep( &$value )`
 
 Sanitizes a value recursively using appropriate sanitization functions depending on the type of the value.
 
 #### Example
 
 ```php
-use StellarWP\SuperGlobals\Request;
+use StellarWP\SuperGlobals\SuperGlobals;
 
-$var = Request::sanitize_deep( $some_var );
+$var = SuperGlobals::sanitize_deep( $some_var );
 ```

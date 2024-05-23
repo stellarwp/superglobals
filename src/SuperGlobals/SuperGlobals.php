@@ -4,7 +4,7 @@ namespace StellarWP\SuperGlobals;
 
 use StellarWP\Arrays\Arr;
 
-class Request {
+class SuperGlobals {
 	/**
 	 * Grab sanitized _SERVER variable.
 	 *
@@ -70,7 +70,7 @@ class Request {
 	/**
 	 * Gets the requested superglobal variable.
 	 *
-	 * @param string $superglobal A superglobal, such as 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
+	 * @param string $superglobal A superglobal, such as 'COOKIE', 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
 	 *
 	 * @return mixed
 	 */
@@ -78,6 +78,10 @@ class Request {
 		$superglobal = strtoupper( $superglobal );
 
 		switch ( $superglobal ) {
+			case '_COOKIE':
+			case 'COOKIE':
+				$var = $_COOKIE;
+				break;
 			case '_ENV':
 			case 'ENV':
 				$var = $_ENV;
@@ -108,7 +112,7 @@ class Request {
 	/**
 	 * Gets the requested superglobal variable, sanitized.
 	 *
-	 * @param string $superglobal A superglobal, such as 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
+	 * @param string $superglobal A superglobal, such as 'COOKIE', 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.
 	 *
 	 * @return mixed
 	 */
