@@ -68,6 +68,23 @@ class SuperGlobals {
 	}
 
 	/**
+	 * Gets a value from `$_ENV`.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @see   Arr::get()
+	 *
+	 * @param string $var
+	 * @param mixed  $default
+	 *
+	 * @return mixed
+	 */
+	public static function get_env_var( string $var, $default = null ) {
+		$unsafe = Arr::get( (array) $_ENV, $var, $default );
+		return static::sanitize_deep( $unsafe );
+	}
+
+	/**
 	 * Gets the requested superglobal variable.
 	 *
 	 * @param string $superglobal A superglobal, such as 'COOKIE', 'ENV', 'GET', 'POST', 'REQUEST', or 'SERVER'.

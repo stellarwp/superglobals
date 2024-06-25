@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use StellarWP\SuperGlobals\SuperGlobals;
 
 final class SuperGlobalsTest extends TestCase {
+
 	/**
 	 * @test
 	 */
@@ -67,6 +68,19 @@ final class SuperGlobalsTest extends TestCase {
 
 		unset( $_GET['bork'] );
 		unset( $_POST['bork'] );
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_get_env_var() {
+		$_ENV['bork'] = 'my env var';
+
+		$this->assertEquals( $_ENV['bork'], SuperGlobals::get_env_var( 'bork', 'default' ) );
+		$this->assertNotEquals( 'whee', SuperGlobals::get_env_var( 'bork', 'default' ) );
+		$this->assertEquals( 'default', SuperGlobals::get_env_var( 'hello', 'default' ) );
+
+		unset( $_ENV['bork'] );
 	}
 
 	/**
