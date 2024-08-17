@@ -29,7 +29,7 @@ class SuperGlobals {
 			return $default;
 		}
 
-		$unsafe = Arr::get_in_any( $data, $var, $default );
+		$unsafe = wp_unslash( Arr::get_in_any( $data, $var, $default ) );
 		return static::sanitize_deep( $unsafe );
 	}
 
@@ -46,7 +46,7 @@ class SuperGlobals {
 	 * @return mixed
 	 */
 	public static function get_get_var( string $var, $default = null ) {
-		$unsafe = Arr::get( (array) $_GET, $var, $default );
+		$unsafe = wp_unslash( Arr::get( (array) $_GET, $var, $default ) );
 		return static::sanitize_deep( $unsafe );
 	}
 
@@ -63,7 +63,7 @@ class SuperGlobals {
 	 * @return mixed
 	 */
 	public static function get_post_var( string $var, $default = null ) {
-		$unsafe = Arr::get( (array) $_POST, $var, $default );
+		$unsafe = wp_unslash( Arr::get( (array) $_POST, $var, $default ) );
 		return static::sanitize_deep( $unsafe );
 	}
 
@@ -80,7 +80,7 @@ class SuperGlobals {
 	 * @return mixed
 	 */
 	public static function get_env_var( string $var, $default = null ) {
-		$unsafe = Arr::get( (array) $_ENV, $var, $default );
+		$unsafe = wp_unslash( Arr::get( (array) $_ENV, $var, $default ) );
 		return static::sanitize_deep( $unsafe );
 	}
 
@@ -134,7 +134,7 @@ class SuperGlobals {
 	 * @return mixed
 	 */
 	public static function get_sanitized_superglobal( string $superglobal ) {
-		$var = static::get_raw_superglobal( $superglobal );
+		$var = wp_unslash( static::get_raw_superglobal( $superglobal ) );
 		return static::sanitize_deep( $var );
 	}
 
@@ -176,7 +176,7 @@ class SuperGlobals {
 			return $default;
 		}
 
-		$unsafe = Arr::get_in_any( $requests, $var, $default );
+		$unsafe = wp_unslash( Arr::get_in_any( $requests, $var, $default ) );
 		return static::sanitize_deep( $unsafe );
 	}
 
