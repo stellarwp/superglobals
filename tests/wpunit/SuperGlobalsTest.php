@@ -15,7 +15,7 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertEquals( $_SERVER['REQUEST_METHOD'], SuperGlobals::get_server_var( 'REQUEST_METHOD', 'default' ) );
 		$this->assertNotEquals( 'POST', SuperGlobals::get_server_var( 'REQUEST_METHOD', 'default' ) );
-		$this->assertEquals( 'default', SuperGlobals::get_server_var( 'REQUEST_URI', 'default' ) );
+		$this->assertEquals( 'default', SuperGlobals::get_server_var( 'UNSET_VALUE', 'default' ) );
 
 		unset( $_SERVER['REQUEST_METHOD'] );
 	}
