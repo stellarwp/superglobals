@@ -3,8 +3,11 @@
   "description": "A library that handles access to superglobals.",
   "type": "library",
   "license": "MIT",
-  "platform": {
-    "php": "7.4"
+  "config": {
+    "platform": {
+      "php": "7.4"
+    },
+    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
