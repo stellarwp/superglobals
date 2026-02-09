@@ -30,7 +30,9 @@ class SuperGlobals {
 		}
 
 		$unsafe = Arr::get_in_any( $data, $var, $default );
-		return static::sanitize_deep( $unsafe );
+		$safe   = static::sanitize_deep( $unsafe );
+
+		return $safe === null ? $default : $safe;
 	}
 
 	/**
@@ -47,7 +49,9 @@ class SuperGlobals {
 	 */
 	public static function get_get_var( string $var, $default = null ) {
 		$unsafe = Arr::get( (array) $_GET, $var, $default );
-		return static::sanitize_deep( $unsafe );
+		$safe   = static::sanitize_deep( $unsafe );
+
+		return $safe === null ? $default : $safe;
 	}
 
 	/**
@@ -64,7 +68,9 @@ class SuperGlobals {
 	 */
 	public static function get_post_var( string $var, $default = null ) {
 		$unsafe = Arr::get( (array) $_POST, $var, $default );
-		return static::sanitize_deep( $unsafe );
+		$safe   = static::sanitize_deep( $unsafe );
+
+		return $safe === null ? $default : $safe;
 	}
 
 	/**
@@ -81,7 +87,9 @@ class SuperGlobals {
 	 */
 	public static function get_env_var( string $var, $default = null ) {
 		$unsafe = Arr::get( (array) $_ENV, $var, $default );
-		return static::sanitize_deep( $unsafe );
+		$safe   = static::sanitize_deep( $unsafe );
+
+		return $safe === null ? $default : $safe;
 	}
 
 	/**
@@ -135,6 +143,7 @@ class SuperGlobals {
 	 */
 	public static function get_sanitized_superglobal( string $superglobal ) {
 		$var = static::get_raw_superglobal( $superglobal );
+
 		return static::sanitize_deep( $var );
 	}
 
@@ -177,7 +186,9 @@ class SuperGlobals {
 		}
 
 		$unsafe = Arr::get_in_any( $requests, $var, $default );
-		return static::sanitize_deep( $unsafe );
+		$safe   = static::sanitize_deep( $unsafe );
+
+		return $safe === null ? $default : $safe;
 	}
 
 	/**
@@ -190,27 +201,50 @@ class SuperGlobals {
 	 * @param mixed $value The value, or values, to sanitize.
 	 *
 	 * @return mixed|null Either the sanitized version of the value, or `null` if the value is not a string, number or
-	 *                    array.
+	 *                    array. If the nested value can't be sanitized, it's removed.
 	 */
-	public static function sanitize_deep( &$value ) {
+	public static function sanitize_deep( $value ) {
 		if ( is_bool( $value ) ) {
 			return $value;
 		}
+
 		if ( is_string( $value ) ) {
-			$value = htmlspecialchars( $value );
-			return $value;
+			return htmlspecialchars(
+				$value,
+				ENT_QUOTES | ENT_SUBSTITUTE,
+				'UTF-8'
+			);
 		}
+
 		if ( is_int( $value ) ) {
-			$value = filter_var( $value, FILTER_VALIDATE_INT );
-			return $value;
+			return filter_var( $value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE );
 		}
+
 		if ( is_float( $value ) ) {
-			$value = filter_var( $value, FILTER_VALIDATE_FLOAT );
-			return $value;
+
+			// Drop NAN and INF.
+			if ( ! is_finite( $value ) ) {
+				return null;
+			}
+
+			return filter_var( $value, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE );
 		}
+
 		if ( is_array( $value ) ) {
-			array_walk( $value, [ __CLASS__, 'sanitize_deep' ] );
-			return $value;
+			$sanitized = [];
+
+			foreach ( $value as $key => $item ) {
+				$clean = self::sanitize_deep( $item );
+
+				// Remove nested values that can't be sanitized.
+				if ( $clean === null ) {
+					continue;
+				}
+
+				$sanitized[ $key ] = $clean;
+			}
+
+			return $sanitized;
 		}
 
 		return null;

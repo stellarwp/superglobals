@@ -3,6 +3,7 @@
 namespace StellarWP\SuperGlobals\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use StellarWP\SuperGlobals\SuperGlobals;
 
 final class SuperGlobalsTest extends TestCase {
@@ -131,9 +132,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_sanitize_deeply() {
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_REQUEST['bork'] = [
 			'thing' => [
-				'dirty' => '<script>alert("hello");</script>',
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -142,6 +147,9 @@ final class SuperGlobalsTest extends TestCase {
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['thing']['dirty'] );
 		$this->assertNotEquals( $_REQUEST['bork'], $var['thing']['dirty'] );
 
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['thing'] );
+
 		unset( $_REQUEST['bork'] );
 	}
 
@@ -149,10 +157,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_cookie_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_COOKIE['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -160,11 +171,15 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'COOKIE' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
+
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
 
 		unset( $_COOKIE['bork'] );
 	}
@@ -173,10 +188,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_env_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_ENV['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -184,11 +202,15 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'ENV' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
+
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
 
 		unset( $_ENV['bork'] );
 	}
@@ -197,10 +219,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_get_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_GET['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -208,11 +233,15 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'GET' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
+
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
 
 		unset( $_GET['bork'] );
 	}
@@ -221,10 +250,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_post_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_POST['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -232,11 +264,15 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'POST' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
+
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
 
 		unset( $_POST['bork'] );
 	}
@@ -245,10 +281,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_request_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_REQUEST['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -256,11 +295,15 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'REQUEST' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
+
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
 
 		unset( $_REQUEST['bork'] );
 	}
@@ -269,10 +312,13 @@ final class SuperGlobalsTest extends TestCase {
 	 * @test
 	 */
 	public function it_should_get_server_superglobal() {
-		$dirty = '<script>alert("hello");</script>';
+		$dirty   = '<script>alert("hello");</script>';
+		$invalid = new stdClass();
+
 		$_SERVER['bork'] = [
 			'thing' => [
-				'dirty' => $dirty,
+				'dirty'   => $dirty,
+				'invalid' => $invalid,
 			],
 		];
 
@@ -280,12 +326,75 @@ final class SuperGlobalsTest extends TestCase {
 
 		$this->assertNotEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertEquals( $dirty, $var['bork']['thing']['dirty'] );
+		$this->assertSame( $invalid, $var['bork']['thing']['invalid'] );
 
 		$var = SuperGlobals::get_sanitized_superglobal( 'SERVER' );
 
 		$this->assertEquals( '&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;', $var['bork']['thing']['dirty'] );
 		$this->assertNotEquals( $dirty, $var['bork']['thing']['dirty'] );
 
+		// The invalid type had its key removed.
+		$this->assertArrayNotHasKey( 'invalid', $var['bork']['thing'] );
+
 		unset( $_SERVER['bork'] );
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_return_default_value_if_sanitization_fails() {
+		$bad_type = new stdClass();
+
+		$_SERVER['REQUEST_METHOD'] = $bad_type;
+		$_REQUEST['bork']          = $bad_type;
+		$_GET['bork']              = $bad_type;
+		$_POST['bork']             = $bad_type;
+		$_ENV['bork']              = $bad_type;
+
+		$this->assertSame( 'default', SuperGlobals::get_server_var( 'REQUEST_METHOD', 'default' ) );
+		$this->assertSame( 'default', SuperGlobals::get_var( 'bork', 'default' ) );
+		$this->assertSame( 'default', SuperGlobals::get_post_var( 'bork', 'default' ) );
+		$this->assertSame( 'default', SuperGlobals::get_get_var( 'bork', 'default' ) );
+		$this->assertSame( 'default', SuperGlobals::get_env_var( 'bork', 'default' ) );
+
+		unset( $_SERVER['REQUEST_METHOD'], $_REQUEST['bork'], $_GET['bork'], $_POST['bork'], $_ENV['bork'] );
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_validate_int_and_float_via_filter_var() {
+		$_REQUEST['count'] = 42;
+		$_REQUEST['pi']    = 3.14;
+		$_REQUEST['nested'] = [
+			'int'   => 1,
+			'float' => 2.5,
+		];
+
+		$this->assertSame( 42, SuperGlobals::get_var( 'count', 'default' ) );
+		$this->assertSame( 3.14, SuperGlobals::get_var( 'pi', 'default' ) );
+		$this->assertSame( 1, SuperGlobals::get_var( [ 'nested', 'int' ], 'default' ) );
+		$this->assertSame( 2.5, SuperGlobals::get_var( [ 'nested', 'float' ], 'default' ) );
+
+		unset( $_REQUEST['count'], $_REQUEST['pi'], $_REQUEST['nested'] );
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_return_null_for_invalid_float_and_thus_default_or_drop_key() {
+		$_REQUEST['nan'] = NAN;
+		$_REQUEST['inf'] = INF;
+
+		$this->assertSame( 'default', SuperGlobals::get_var( 'nan', 'default' ) );
+		$this->assertSame( 'default', SuperGlobals::get_var( 'inf', 'default' ) );
+
+		$_REQUEST['nested'] = [ 'nan' => NAN, 'inf' => INF ];
+		$var = SuperGlobals::get_var( 'nested', 'default' );
+
+		$this->assertArrayNotHasKey( 'nan', $var );
+		$this->assertArrayNotHasKey( 'inf', $var );
+
+		unset( $_REQUEST['nan'], $_REQUEST['inf'], $_REQUEST['nested'] );
 	}
 }

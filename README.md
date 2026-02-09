@@ -18,7 +18,7 @@ in a consistent and safe way and can be included as a composer dependency.
   * [`SuperGlobals::get_sanitized_superglobal( string $superglobal )`](#superglobalsget_sanitized_superglobal-string-superglobal-)
   * [`SuperGlobals::get_server_var( $var, $default = null )`](#superglobalsget_server_var-var-default--null-)
   * [`SuperGlobals::get_var( $var, $default = null )`](#superglobalsget_var-var-default--null-)
-  * [`SuperGlobals::sanitize_deep( &$value )`](#superglobalssanitize_deep-value-)
+  * [`SuperGlobals::sanitize_deep( $value )`](#superglobalssanitize_deep-value-)
 
 ## Installation
 
@@ -51,7 +51,7 @@ use StellarWP\SuperGlobals\SuperGlobals;
 // Get $_GET['post_id']
 $var = SuperGlobals::get_get_var( 'post_id' );
 
-// Provide a default value if the variable is not set.
+// Provide a default value if the variable is not set or fails to sanitize.
 $var = SuperGlobals::get_get_var( 'post_id', 12 );
 ```
 
@@ -67,7 +67,7 @@ use StellarWP\SuperGlobals\SuperGlobals;
 // Get $_POST['post_id']
 $var = SuperGlobals::get_post_var( 'post_id' );
 
-// Provide a default value if the variable is not set.
+// Provide a default value if the variable is not set or fails to sanitize.
 $var = SuperGlobals::get_post_var( 'post_id', 12 );
 ```
 
@@ -133,7 +133,7 @@ use StellarWP\SuperGlobals\SuperGlobals;
 // Get $_SERVER['REQUEST_URI']
 $var = SuperGlobals::get_server_var( 'REQUEST_URI' );
 
-// Provide a default value if the variable is not set.
+// Provide a default value if the variable is not set or fails to sanitize.
 $var = SuperGlobals::get_server_var( 'REQUEST_URI', 'http://example.com' );
 ```
 
@@ -146,16 +146,20 @@ Gets a value from `$_REQUEST`, `$_POST`, or `$_GET` and recursively sanitizes it
 ```php
 use StellarWP\SuperGlobals\SuperGlobals;
 
-// Get $_REQUEST['post_id'] or $_POST['post_id'] or $_GET['post_id'], wherever it lives
+// Get $_REQUEST['post_id'] or $_POST['post_id'] or $_GET['post_id'], wherever it lives.
 $var = SuperGlobals::get_var( 'post_id' );
 
-// Provide a default value if the variable is not set.
+// Provide a default value if the variable is not set or fails to sanitize.
 $var = SuperGlobals::get_var( 'post_id', 12 );
 ```
 
-### `SuperGlobals::sanitize_deep( &$value )`
+### `SuperGlobals::sanitize_deep( $value )`
 
 Sanitizes a value recursively using appropriate sanitization functions depending on the type of the value.
+
+> [!IMPORTANT]
+> During deep sanitization, any nested array value that cannot be safely sanitized is **removed entirely** (its key is unset).
+> This is intentional: missing data is safer and more predictable than retaining invalid or corrupted values.
 
 #### Example
 
